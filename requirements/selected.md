@@ -14,7 +14,7 @@
 
 I selected the FR number3 (Order Ingredients) because it is the core value of this application. Browsing meals and viewing ingredients are also important, but the ability to place an order is the most important action that delivers value to customers. That's the feature that that makes the service useful.
 
-I selected NFR3 (Data Persistence and reliability) because placing an order is a critical action that must be trustworthy. If order details are lost due to a system failure, the service becomes unreliable for users. This requirement is fundamental to building trust with users. If customers cannot rely on the system to preserve their orders, they will not use the service.
+I selected NFR number3 (Data Persistence and reliability) because placing an order is a critical action that must be trustworthy. If order details are lost due to a system failure, the service becomes unreliable for users. This requirement is fundamental to building trust with users. If customers cannot rely on the system to preserve their orders, they will not use the service.
 
 ### How These Requirements Relate
 
