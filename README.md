@@ -30,7 +30,7 @@ The system provides a simple interface for customers to:
    cd ase25-assignment04-elahemahmoodpourgilavaei
    ```
 
-2. **Run in interactive mode** (default):
+2. **Run the application**:
 
    ```bash
    python smart_cater.py
@@ -42,33 +42,12 @@ The system provides a simple interface for customers to:
    python3 smart_cater.py
    ```
 
-   The interactive mode provides a menu-driven interface where you can:
+   The application provides an interactive menu-driven interface where you can:
 
    - Browse available meals and their ingredients
    - Place orders by selecting a meal, entering your name, and choosing a delivery date
    - View your order history
    - View detailed information about specific orders
-
-3. **Run automated demo**:
-
-   ```bash
-   python smart_cater.py --demo
-   ```
-
-   Or:
-
-   ```bash
-   python3 smart_cater.py --demo
-   ```
-
-   The automated demo shows:
-
-   - Loading sample meals into the catalog
-   - Displaying available meals with their ingredients
-   - Placing multiple orders for different customers
-   - Viewing order details
-   - Listing customer order history
-   - Demonstrating data persistence by simulating a system crash and recovery
 
 ## Project Structure
 
@@ -86,4 +65,5 @@ The system provides a simple interface for customers to:
 ## Notes
 
 - This is a prototype implementation using in-memory storage
-- The demo includes sample data and demonstrates the complete ordering workflow
+- The application includes sample meals and demonstrates the complete ordering workflow
+- Orders are persisted in memory to prevent data loss (NFR3)
