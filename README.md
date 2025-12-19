@@ -6,8 +6,8 @@ SmartCater is a catering ingredient-ordering service prototype that allows custo
 
 This prototype implements:
 
-- **FR3**: Order ingredients for a selected meal
-- **NFR3**: Data persistence to prevent order loss on system crashes
+- **FR number3**: Order ingredients for a selected meal
+- **NFR number3**: Data persistence to prevent order loss on system crashes
 
 The system provides a simple interface for customers to:
 
@@ -19,7 +19,7 @@ The system provides a simple interface for customers to:
 ## Requirements
 
 - Python 3.6 or higher
-- No external dependencies (uses only Python standard library)
+- No external dependencies
 
 ## How to Run
 
@@ -55,6 +55,7 @@ The system provides a simple interface for customers to:
 .
 ├── README.md                          # This file
 ├── smart_cater.py                     # Main implementation
+├── meals.json                         # Meal catalog data
 └── requirements/
     ├── functional.md                  # Functional requirements
     ├── nonfunctional.md               # Non-functional requirements
@@ -65,5 +66,6 @@ The system provides a simple interface for customers to:
 ## Notes
 
 - This is a prototype implementation using in-memory storage
+- Meal data is loaded from `meals.json` file
 - The application includes sample meals and demonstrates the complete ordering workflow
 - Orders are persisted in memory to prevent data loss (NFR3)

@@ -1,0 +1,33 @@
+[
+  {
+    "meal_id": "M001",
+    "name": "Vegan Pasta",
+    "ingredients": ["pasta", "tomatoes", "basil", "olive oil"],
+    "category": "vegan"
+  },
+  {
+    "meal_id": "M002",
+    "name": "Chicken Curry",
+    "ingredients": ["chicken", "curry powder", "coconut milk", "rice"],
+    "category": "quick meals"
+  },
+  {
+    "meal_id": "M003",
+    "name": "Gluten-Free Salad",
+    "ingredients": ["lettuce", "tomatoes", "cucumber", "olive oil"],
+    "category": "gluten-free"
+  },
+  {
+    "meal_id": "M004",
+    "name": "Beef Steak",
+    "ingredients": ["beef", "potatoes", "green beans", "butter"],
+    "category": "general"
+  },
+  {
+    "meal_id": "M005",
+    "name": "Vegetable Stir Fry",
+    "ingredients": ["broccoli", "carrots", "soy sauce", "ginger"],
+    "category": "vegan"
+  }
+]
+

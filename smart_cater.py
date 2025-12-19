@@ -1,9 +1,10 @@
 from datetime import datetime, date, timedelta
 from typing import List, Dict, Optional
+import json
+import os
 
 class Meal:
     # Represent meal & its ingredients
-    
     def __init__(self, meal_id: str, name: str, ingredients: List[str], 
                  category: str = "general"):
         self.meal_id = meal_id
@@ -12,7 +13,7 @@ class Meal:
         self.category = category
     
     def to_dict(self) -> Dict:
-        # Convert meal to dictionary for persistence
+        # Convert meal to dictionary
         return {
             "meal_id": self.meal_id,
             "name": self.name,
@@ -33,7 +34,7 @@ class Order:
         self.created_at = datetime.now().isoformat()
     
     def to_dict(self) -> Dict:
-        # Convert order to dictionary for persistence
+        # Convert order to dictionary
         return {
             "order_id": self.order_id,
             "meal": self.meal.to_dict(),
@@ -46,11 +47,10 @@ class Order:
 
 class OrderRepository:
     # Manages order storage and retrieval + Data persistence strategy to prevent order loss
-   
     def __init__(self):
         # In-memory storage
         self._orders: Dict[str, Order] = {}
-        # Persistent storage (simulated - in production would be a database)
+        # Persistent storage (in production would be a database)
         self._persistent_state: List[Dict] = []
     
     def add_order(self, order: Order) -> bool:
@@ -70,10 +70,8 @@ class OrderRepository:
         return [order for order in self._orders.values() 
                 if order.customer_name == customer_name]
 
-
 class SmartCaterService:
-    # Handles meal management and order processing
-    
+    # Handles meal management & order processing
     def __init__(self):
         self.meals: Dict[str, Meal] = {}
         self.order_repository = OrderRepository()
@@ -90,7 +88,7 @@ class SmartCaterService:
     
     def order_ingredients(self, meal_id: str, customer_name: str, 
                          delivery_date: str) -> Optional[Order]:
-        # Create order for ingredients of the meal (FR3)
+        # Create order for ingredients of the meal
         meal = self.get_meal(meal_id)
         if not meal:
             print(f"Error: Meal with ID '{meal_id}' not found.")
@@ -125,21 +123,35 @@ class SmartCaterService:
             print(f"Order {order_id} not found.")
 
 
-def create_sample_meals() -> List[Meal]:
-    return [
-        Meal("M001", "Vegan Pasta", ["pasta", "tomatoes", "basil", "olive oil"], "vegan"),
-        Meal("M002", "Chicken Curry", ["chicken", "curry powder", "coconut milk", "rice"], "quick meals"),
-        Meal("M003", "Gluten-Free Salad", ["lettuce", "tomatoes", "cucumber", "olive oil"], "gluten-free"),
-        Meal("M004", "Beef Steak", ["beef", "potatoes", "green beans", "butter"], "general"),
-        Meal("M005", "Vegetable Stir Fry", ["broccoli", "carrots", "soy sauce", "ginger"], "vegan")
-    ]
+def load_meals_from_json(filename: str = "meals.json") -> List[Meal]:
+    # Load meals from JSON
+    meals = []
+    try:
+        if os.path.exists(filename):
+            with open(filename, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                for meal_data in data:
+                    meal = Meal(
+                        meal_id=meal_data["meal_id"],
+                        name=meal_data["name"],
+                        ingredients=meal_data["ingredients"],
+                        category=meal_data.get("category", "general")
+                    )
+                    meals.append(meal)
+        else:
+            print(f"Warning: {filename} not found. Using empty meal list.")
+    except json.JSONDecodeError as e:
+        print(f"Error reading {filename}: Invalid JSON format. {e}")
+    except Exception as e:
+        print(f"Error loading meals from {filename}: {e}")
+    return meals
 
 
 def display_menu():
     print("\n" + "="*70)
     print("SmartCater - Ingredient Ordering Service")
     print("="*70)
-    print("1. Browse available meals")
+    print("1. See available meals")
     print("2. Place an order")
     print("3. View my orders")
     print("4. View order details")
@@ -197,21 +209,15 @@ def interactive_order(service: SmartCaterService):
         print("Name cannot be empty. Please enter your name.")
     
     while True:
-        delivery_date = input("Enter delivery date (YYYY-MM-DD) or 'today' or 'tomorrow': ").strip().lower()
+        delivery_date = input("Enter delivery date ('today' or 'tomorrow'): ").strip().lower()
         if delivery_date == 'today':
             delivery_date = date.today().isoformat()
             break
         elif delivery_date == 'tomorrow':
             delivery_date = (date.today() + timedelta(days=1)).isoformat()
             break
-        elif delivery_date and len(delivery_date) == 10:
-            try:
-                datetime.strptime(delivery_date, "%Y-%m-%d")
-                break
-            except ValueError:
-                print("Invalid date format. Please use YYYY-MM-DD format.")
         else:
-            print("Invalid input. Please enter a date (YYYY-MM-DD), 'today', or 'tomorrow'.")
+            print("Invalid input. Please enter 'today' or 'tomorrow'.")
     
     print(f"\nOrder Summary:")
     print(f"  Meal: {meal.name}")
@@ -268,18 +274,14 @@ def main():
     print("="*70)
     print("SmartCater - Ingredient Ordering Service")
     print("="*70)
-    print("Welcome! This service allows you to:")
-    print("  • Browse available meals")
-    print("  • Place orders for meal ingredients")
-    print("  • View your order history")
-    print("  • View detailed order information")
+    print("Welcome to SmartCater!")
     
     service = SmartCaterService()
     
-    sample_meals = create_sample_meals()
-    for meal in sample_meals:
+    meals = load_meals_from_json("meals.json")
+    for meal in meals:
         service.add_meal(meal)
-    print(f"\n✓ Loaded {len(sample_meals)} meals into catalog")
+    print(f"\n✓ Loaded {len(meals)} meals into catalog")
     
     while True:
         display_menu()
